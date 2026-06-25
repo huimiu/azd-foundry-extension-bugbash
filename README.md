@@ -41,12 +41,31 @@ azd extension list
 Every `azure.ai.*` + `microsoft.foundry` should show a `*-foundrytest.1` version
 with source `foundrytest`.
 
-## Now you're ready
+## Bug bash: unified `azure.yaml`
+
+The feature under test is the **unified `azure.yaml`** — a whole Foundry project
+(project, model deployments, connections, toolboxes, skills, agents, routines)
+described as `services:` entries in one file, instead of separate `agent.yaml` /
+`agent.manifest.yaml`.
+
+A ready-to-poke sample and a step-by-step bug-bash guide live in
+**[`unified-yaml-sample/`](./unified-yaml-sample/README.md)**:
+
+- **Tier 1 (no Azure):** editor schema validation, `azd ai agent init` writing one
+  file, and the migration/deprecation warning.
+- **Tier 2 (needs Azure):** `azd provision` / `azd up` / `azd down`, per-service
+  progress, `uses:` ordering, and failure attribution.
+
+Quick start:
 
 ```powershell
-azd ai agent init
+cd unified-yaml-sample
+code azure.yaml      # try schema validation/autocomplete
+# then, with an Azure subscription:
 azd up
 ```
+
+Design reference: [PR #8590](https://github.com/Azure/azure-dev/pull/8590).
 
 ## Extension versions
 

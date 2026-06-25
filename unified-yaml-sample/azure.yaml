@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/huimiu/foundry-azure-yaml/schemas/v1.0/azure.yaml.json
+
+# Unified Foundry azure.yaml — the feature under test.
+#
+# One file is the single source of truth. Each Foundry resource is its own
+# `services:` entry with a singular `host:`, keyed by its resource name, and
+# wired together with `uses:`. There is NO agent.yaml and NO agent.manifest.yaml.
+#
+# This sample is the "simple" shape: one project (with a model deployment) and
+# one hosted agent that depends on it.
+name: foundry-bugbash
+
+services:
+  # The Foundry project. host: azure.ai.project owns the project + its model
+  # deployments. No `endpoint:` here means "provision a new project".
+  ai-project:
+    host: azure.ai.project
+    deployments:
+      - name: gpt-4o-mini
+        model:
+          format: OpenAI
+          name: gpt-4o-mini
+          version: "2024-07-18"
+        sku:
+          name: GlobalStandard
+          capacity: 10
+
+  # A hosted agent built from source under ./agents/assistant.
+  # `uses: [ai-project]` orders deploy (project first) and links the two.
+  assistant:
+    host: azure.ai.agent
+    project: ./agents/assistant
+    uses:
+      - ai-project
+    kind: hosted
+    name: assistant
+    description: A simple assistant for the bug bash.
+    env:
+      FOUNDRY_MODEL_DEPLOYMENT_NAME: gpt-4o-mini
