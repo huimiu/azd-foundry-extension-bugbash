@@ -1,4 +1,4 @@
-# azd Foundry — feature-branch test build
+# AZD Foundry Extension Bug Bash
 
 > **Unsigned local test builds — not official releases.** Share only with people
 > you trust; do not use in production.
@@ -6,8 +6,7 @@
 ## Main features in this build
 
 Everything models a Foundry project directly in **`azure.yaml`** — no separate
-`agent.yaml` / `agent.manifest.yaml`. Brought together in
-[PR #8818](https://github.com/Azure/azure-dev/pull/8818):
+`agent.yaml` / `agent.manifest.yaml`.
 
 - **Unified `azure.yaml` & resource modeling** — the project, model deployments,
   connections, toolboxes, skills, agents, and routines are each a `services:`
