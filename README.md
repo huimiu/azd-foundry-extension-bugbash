@@ -23,7 +23,7 @@ Everything models a Foundry project directly in **`azure.yaml`** — no separate
 
 | Folder | What it is |
 |---|---|
-| `azd-foundry-core/` | The patched **azd CLI** (`azd.exe`, `1.27.0-beta.1-pr.foundrytest1`) |
+| `azd-foundry-core/` | The patched **azd CLI** (`azd.exe`, `1.27.0-beta.1-pr.foundrytest2`) |
 | `foundry-registry/` | All **8 Foundry extensions** + a one-command installer |
 
 This feature spans **both** core and extensions, so you need **both** folders.
@@ -35,7 +35,7 @@ This feature spans **both** core and extensions, so you need **both** folders.
 ```powershell
 cd azd-foundry-core
 $env:PATH = "$PWD;$env:PATH"   # this shell only; or add the folder to PATH permanently
-azd version                    # -> 1.27.0-beta.1-pr.foundrytest1
+azd version                    # -> 1.27.0-beta.1-pr.foundrytest2
 cd ..
 ```
 
@@ -82,8 +82,9 @@ shape. Design reference: [PR #8590](https://github.com/Azure/azure-dev/pull/8590
 
 > ✅ **Schema note:** the feature branch's root schema now `$ref`s all the
 > `azure.ai.*` sub-schemas from the branch itself, so the editor should resolve
-> the full unified shape. If you see unresolved-`$ref` warnings, reload your
-> editor window to refetch the schema.
+> the full unified shape. This build of `azd` also writes the **feature-branch**
+> schema URL into files it generates (e.g. `azd ai agent init`), so they validate
+> too. If you see unresolved-`$ref` warnings, reload your editor window to refetch.
 
 Each feature below is independent — pick any. Items marked **(no Azure)** need
 only the editor / CLI; the rest need an Azure subscription + Foundry access.
