@@ -3,6 +3,23 @@
 > **Unsigned local test builds — not official releases.** Share only with people
 > you trust; do not use in production.
 
+## Main features in this build
+
+Everything models a Foundry project directly in **`azure.yaml`** — no separate
+`agent.yaml` / `agent.manifest.yaml`. Brought together in
+[PR #8818](https://github.com/Azure/azure-dev/pull/8818):
+
+- **Unified `azure.yaml` & resource modeling** — the project, model deployments,
+  connections, toolboxes, skills, agents, and routines are each a `services:`
+  entry with its own `host:`, wired together with `uses:`.
+- **`$ref` file includes** — split large entries into their own files and pull
+  them in with `$ref`, with sibling keys layered on top as overrides.
+- **IaC-less & flexible init** — `azd ai agent init` scaffolds without an `infra/`
+  folder (Bicep-less), with Terraform as an option (`--infra terraform`) and an
+  `--image` flag for prebuilt agent images.
+- **Secure-by-default private networking** — VNet-bound (network-secured) Foundry
+  accounts configured straight from `azure.yaml`.
+
 ## What's inside
 
 | Folder | What it is |
@@ -141,6 +158,76 @@ agents, routines, inline tools, and `$ref` file includes, see the canonical
 File issues at [<https://github.com/huimiu/azd-foundry-extension-bugbash/issues](https://github.com/Azure/azure-dev/issues)>.
 Please include `azd version` + `azd extension list` output, the `azure.yaml` you
 used, the command, the full output, and what you expected.
+
+## Testing other features
+
+Beyond the project + agent sample above, here's how to exercise the rest of the
+feature set. Each resource also has a per-resource CLI: `azd ai project`,
+`azd ai connection`, `azd ai toolbox`, `azd ai skill`, `azd ai routine`, and
+`azd ai agent`.
+
+### `$ref` file includes
+
+Split a service body into its own file and reference it from `azure.yaml`. Keys
+placed next to `$ref` override the loaded file:
+
+```yaml
+services:
+  assistant:
+    host: azure.ai.agent
+    uses: [ai-project]
+    $ref: ./agents/assistant.yaml             # body loaded from the file
+    description: Overrides the file's description.   # sibling override
+```
+
+Check: relative paths inside the loaded file (`project:`, `instructions:`) rebase
+to that file's own folder, and a bad/unreadable path gives a clear error.
+
+### IaC-less init, Terraform, and prebuilt images
+
+```powershell
+azd ai agent init                              # Bicep-less: no infra/ folder needed
+azd ai agent init --infra terraform            # scaffold Terraform instead of Bicep
+azd ai agent init --image <registry/image:tag> # use a prebuilt agent image (skip build)
+```
+
+Check: a Foundry-only project provisions with **no `infra/` folder**; `--infra
+terraform` writes a `.tf` module; `--image` skips the source build at deploy.
+
+### Secure-by-default private networking
+
+Add a `network:` block to the `azure.ai.project` service to provision a VNet-bound
+(network-secured) account. Omit it for a public account.
+
+```yaml
+services:
+  ai-project:
+    host: azure.ai.project
+    network:
+      agentSubnet: { vnet: ${AZURE_VNET_ID}, name: agent-subnet, prefix: 192.168.0.0/24 }
+      peSubnet:    { vnet: ${AZURE_VNET_ID}, name: pe-subnet,    prefix: 192.168.1.0/24 }
+    deployments:
+      - name: gpt-4o-mini
+        model: { format: OpenAI, name: gpt-4o-mini, version: "2024-07-18" }
+        sku:   { name: GlobalStandard, capacity: 10 }
+```
+
+Check: provision creates a network-secured account with public access disabled.
+More detail in the agents extension's `docs/private-networking.md`.
+
+### Connections, toolboxes, skills, routines, prompt agents
+
+The `complex` example wires all of these together in one file —
+[`complex.azure.yaml`](https://github.com/Azure/azure-dev/blob/huimiu/foundry-azure-yaml/cli/azd/extensions/azure.ai.agents/schemas/examples/complex.azure.yaml).
+Copy entries from it into your `azure.yaml`, or drive each resource directly:
+
+| Resource | Host | CLI |
+|---|---|---|
+| connection | `azure.ai.connection` | `azd ai connection` |
+| toolbox | `azure.ai.toolbox` | `azd ai toolbox` |
+| skill | `azure.ai.skill` | `azd ai skill` |
+| routine (scheduled/event) | `azure.ai.routine` | `azd ai routine` |
+| prompt agent | `azure.ai.agent` (`kind: prompt`) | `azd ai agent` |
 
 ## Extension versions
 
