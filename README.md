@@ -1,8 +1,4 @@
-# azd Foundry — feature-branch test build (Windows x64)
-
-Everything needed to run the Microsoft Foundry / `azure.yaml` feature end-to-end
-on a **Windows x64** machine. Branch `huimiu/foundry-azure-yaml`, commit
-`00cddf712`, rebuilt 2026-06-25.
+# azd Foundry — feature-branch test build
 
 > **Unsigned local test builds — not official releases.** Share only with people
 > you trust; do not use in production.
