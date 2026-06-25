@@ -100,7 +100,11 @@ only the editor / CLI; the rest need an Azure subscription + Foundry access.
 
 ### `azd ai agent init` writes one file (no Azure)
 
-1. In an **empty** directory, run `azd ai agent init`.
+1. Make a fresh directory **outside this repo** — anywhere that is *not* nested
+   under a folder containing an `azure.yaml`. (azd discovers projects by walking
+   **up** the directory tree, so if you run this inside `unified-yaml-sample/`
+   it finds that sample project and adds the agent to it instead of creating a
+   new one.) Then run `azd ai agent init`.
 2. Confirm it writes a unified `azure.yaml` with `services:` entries (a
    `host: azure.ai.project` service and a `host: azure.ai.agent` service), and
    does **not** create `agent.yaml` or `agent.manifest.yaml`.
