@@ -30,7 +30,9 @@ azd extension source remove foundrytest 2>$null | Out-Null
 azd extension source add -n foundrytest -t file -l $local
 
 Write-Host "Installing microsoft.foundry (and its 7 dependencies)..."
-azd extension install microsoft.foundry --source foundrytest
+# --force avoids interactive prompts when the production Foundry extensions are
+# already installed (installing from a different source counts as a source change).
+azd extension install microsoft.foundry --source foundrytest --force
 
 Write-Host ""
 Write-Host "Done. Verify with:  azd extension list"
