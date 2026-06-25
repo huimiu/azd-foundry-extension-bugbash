@@ -23,7 +23,7 @@ Everything models a Foundry project directly in **`azure.yaml`** — no separate
 
 | Folder | What it is |
 |---|---|
-| `azd-foundry-core/` | The patched **azd CLI** (`azd.exe`, `1.27.0-beta.1-pr.foundrytest2`) |
+| `azd-foundry-core/` | The patched **azd CLI** (`azd.exe`, `1.27.0-beta.1-pr.foundrytest3`) |
 | `foundry-registry/` | All **8 Foundry extensions** + a one-command installer |
 
 This feature spans **both** core and extensions, so you need **both** folders.
@@ -35,7 +35,7 @@ This feature spans **both** core and extensions, so you need **both** folders.
 ```powershell
 cd azd-foundry-core
 $env:PATH = "$PWD;$env:PATH"   # this shell only; or add the folder to PATH permanently
-azd version                    # -> 1.27.0-beta.1-pr.foundrytest2
+azd version                    # -> 1.27.0-beta.1-pr.foundrytest3
 cd ..
 ```
 
