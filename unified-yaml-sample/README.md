@@ -52,13 +52,11 @@ The fastest, highest-value bug bash. None of this spends Azure.
    - put `deployments:` under the agent instead of the project,
    - add an unknown field.
 
-> ⚠️ **Known issue (please still note it):** the feature branch's root schema
-> currently `$ref`s the `azure.ai.project / connection / toolbox / skill / routine`
-> sub-schemas from `main`, where they don't exist yet (HTTP 404). So today the
-> editor validates the top-level structure, `host:` enum, and the **agent**
-> fields, but the **project/connection/toolbox/skill/routine** detail (e.g. the
-> `deployments:` item shape) may show as unresolved. This is a schema-wiring bug
-> on the branch, not your setup.
+> ✅ **Schema note:** the feature branch's root schema now `$ref`s all the
+> `azure.ai.*` sub-schemas from the branch itself, so the editor should resolve
+> the full unified shape (project, connection, toolbox, skill, routine, and
+> agent). If you see unresolved-`$ref` warnings, your editor may have cached an
+> older copy of the schema — reload the window to refetch.
 
 ### 1b. `azd ai agent init` writes ONE file
 
