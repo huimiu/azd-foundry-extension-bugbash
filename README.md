@@ -212,7 +212,7 @@ Copy entries from it into your `azure.yaml`, or drive each resource directly:
 
 ### How to report findings
 
-File issues at [<https://github.com/huimiu/azd-foundry-extension-bugbash/issues](https://github.com/Azure/azure-dev/issues)>.
+File issues at [https://github.com/Azure/azure-dev/issues](https://github.com/Azure/azure-dev/issues).
 Please include `azd version` + `azd extension list` output, the `azure.yaml` you
 used, the command, the full output, and what you expected.
 
