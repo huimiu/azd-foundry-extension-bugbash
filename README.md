@@ -86,11 +86,10 @@ shape. Design reference: [PR #8590](https://github.com/Azure/azure-dev/pull/8590
 > the full unified shape. If you see unresolved-`$ref` warnings, reload your
 > editor window to refetch the schema.
 
-### Without Azure: authoring & schema
+Each feature below is independent — pick any. Items marked **(no Azure)** need
+only the editor / CLI; the rest need an Azure subscription + Foundry access.
 
-The fastest checks — none of this spends Azure.
-
-**Schema validation in the editor**
+### Schema validation in the editor (no Azure)
 
 1. Open the repo in **VS Code** (with the YAML extension) and open
    [`unified-yaml-sample/azure.yaml`](./unified-yaml-sample/azure.yaml).
@@ -99,24 +98,42 @@ The fastest checks — none of this spends Azure.
 3. Break things and confirm red squiggles: misspell `host: azure.ai.projct`, put
    `deployments:` under the agent, or add an unknown field.
 
-**`azd ai agent init` writes ONE file**
+### `azd ai agent init` writes one file (no Azure)
 
 1. In an **empty** directory, run `azd ai agent init`.
 2. Confirm it writes a unified `azure.yaml` with `services:` entries (a
    `host: azure.ai.project` service and a `host: azure.ai.agent` service), and
    does **not** create `agent.yaml` or `agent.manifest.yaml`.
 
-**Migration / deprecation warning**
+### `$ref` file includes (no Azure)
 
-1. `cd unified-yaml-sample/migration-before`
-2. Run `azd package`.
-3. [`migration-before/azure.yaml`](./unified-yaml-sample/migration-before/azure.yaml)
-   uses the OLD config-nested agent shape — confirm azd prints a **deprecation
-   warning** pointing at the migration guide, and does not crash.
+Split a service body into its own file and reference it from `azure.yaml`. Keys
+placed next to `$ref` override the loaded file:
 
-### With Azure: provision & deploy
+```yaml
+services:
+  assistant:
+    host: azure.ai.agent
+    uses: [ai-project]
+    $ref: ./agents/assistant.yaml             # body loaded from the file
+    description: Overrides the file's description.   # sibling override
+```
 
-Needs an Azure subscription + Foundry access.
+Check: relative paths inside the loaded file (`project:`, `instructions:`) rebase
+to that file's own folder, and a bad/unreadable path gives a clear error.
+
+### IaC-less init, Terraform, and prebuilt images
+
+```powershell
+azd ai agent init                              # Bicep-less: no infra/ folder needed
+azd ai agent init --infra terraform            # scaffold Terraform instead of Bicep
+azd ai agent init --image <registry/image:tag> # use a prebuilt agent image (skip build)
+```
+
+Check: a Foundry-only project provisions with **no `infra/` folder**; `--infra
+terraform` writes a `.tf` module; `--image` skips the source build at deploy.
+
+### Provision & deploy (needs Azure)
 
 > The placeholder agent under `unified-yaml-sample/agents/assistant` is
 > intentionally minimal — it exercises the **orchestration**, not a real agent
@@ -146,55 +163,7 @@ Things to look for / try to break:
 - **Teardown.** `azd down` removes what azd provisioned; an `endpoint:`-based
   project should NOT be deleted.
 
-### The full surface
-
-The sample covers project + agent. For connections, toolboxes, skills, prompt
-agents, routines, inline tools, and `$ref` file includes, see the canonical
-`complex` example on the branch:
-[`complex.azure.yaml`](https://github.com/Azure/azure-dev/blob/huimiu/foundry-azure-yaml/cli/azd/extensions/azure.ai.agents/schemas/examples/complex.azure.yaml).
-
-### How to report findings
-
-File issues at [<https://github.com/huimiu/azd-foundry-extension-bugbash/issues](https://github.com/Azure/azure-dev/issues)>.
-Please include `azd version` + `azd extension list` output, the `azure.yaml` you
-used, the command, the full output, and what you expected.
-
-## Testing other features
-
-Beyond the project + agent sample above, here's how to exercise the rest of the
-feature set. Each resource also has a per-resource CLI: `azd ai project`,
-`azd ai connection`, `azd ai toolbox`, `azd ai skill`, `azd ai routine`, and
-`azd ai agent`.
-
-### `$ref` file includes
-
-Split a service body into its own file and reference it from `azure.yaml`. Keys
-placed next to `$ref` override the loaded file:
-
-```yaml
-services:
-  assistant:
-    host: azure.ai.agent
-    uses: [ai-project]
-    $ref: ./agents/assistant.yaml             # body loaded from the file
-    description: Overrides the file's description.   # sibling override
-```
-
-Check: relative paths inside the loaded file (`project:`, `instructions:`) rebase
-to that file's own folder, and a bad/unreadable path gives a clear error.
-
-### IaC-less init, Terraform, and prebuilt images
-
-```powershell
-azd ai agent init                              # Bicep-less: no infra/ folder needed
-azd ai agent init --infra terraform            # scaffold Terraform instead of Bicep
-azd ai agent init --image <registry/image:tag> # use a prebuilt agent image (skip build)
-```
-
-Check: a Foundry-only project provisions with **no `infra/` folder**; `--infra
-terraform` writes a `.tf` module; `--image` skips the source build at deploy.
-
-### Secure-by-default private networking
+### Secure-by-default private networking (needs Azure)
 
 Add a `network:` block to the `azure.ai.project` service to provision a VNet-bound
 (network-secured) account. Omit it for a public account.
@@ -215,6 +184,14 @@ services:
 Check: provision creates a network-secured account with public access disabled.
 More detail in the agents extension's `docs/private-networking.md`.
 
+### Migration from the old shape (no Azure)
+
+1. `cd unified-yaml-sample/migration-before`
+2. Run `azd package`.
+3. [`migration-before/azure.yaml`](./unified-yaml-sample/migration-before/azure.yaml)
+   uses the OLD config-nested agent shape — confirm azd prints a **deprecation
+   warning** pointing at the migration guide, and does not crash.
+
 ### Connections, toolboxes, skills, routines, prompt agents
 
 The `complex` example wires all of these together in one file —
@@ -228,6 +205,12 @@ Copy entries from it into your `azure.yaml`, or drive each resource directly:
 | skill | `azure.ai.skill` | `azd ai skill` |
 | routine (scheduled/event) | `azure.ai.routine` | `azd ai routine` |
 | prompt agent | `azure.ai.agent` (`kind: prompt`) | `azd ai agent` |
+
+### How to report findings
+
+File issues at [<https://github.com/huimiu/azd-foundry-extension-bugbash/issues](https://github.com/Azure/azure-dev/issues)>.
+Please include `azd version` + `azd extension list` output, the `azure.yaml` you
+used, the command, the full output, and what you expected.
 
 ## Extension versions
 
