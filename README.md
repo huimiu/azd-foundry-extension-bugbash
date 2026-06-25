@@ -69,10 +69,3 @@ azd extension source remove foundrytest
 azd extension install microsoft.foundry      # production version from default source
 # and remove azd-foundry-core from PATH / use your stock azd
 ```
-
-## Notes
-
-- macOS / Linux testers: use `foundry-registry/install-foundry.sh`, and you'll
-  need a matching non-Windows `azd` build (ask the sender).
-- The installer localizes artifact paths to wherever this folder lives, so you
-  can move/copy the whole folder anywhere and just re-run it.
