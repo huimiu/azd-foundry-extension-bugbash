@@ -23,8 +23,7 @@ azd version                    # -> 1.27.0-beta.1-pr.foundrytest1
 cd ..
 ```
 
-`azd.exe` is already named correctly — no renaming needed. If SmartScreen warns
-about an unknown publisher: **More info → Run anyway**.
+If SmartScreen warns about an unknown publisher: **More info → Run anyway**.
 
 ### 2. Install the extensions
 
