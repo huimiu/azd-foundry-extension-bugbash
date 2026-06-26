@@ -40,7 +40,7 @@ azd extension list
 > so it won't replace an already-installed binary otherwise.
 
 ✅ **Expect:** every `azure.ai.*` + `microsoft.foundry` shows a `*-foundrytest.*`
-version with source `foundrytest` (`azure.ai.agents` is `foundrytest.3`, the rest
+version with source `foundrytest` (`azure.ai.agents` is `foundrytest.4`, the rest
 `foundrytest.1`).
 
 ## Try it
@@ -241,7 +241,7 @@ write-up ([README](https://github.com/therealjohn/foundry-azd-config-preview/blo
 
 | Extension | Version |
 |---|---|
-| azure.ai.agents | `0.1.42-preview-foundrytest.3` |
+| azure.ai.agents | `0.1.42-preview-foundrytest.4` |
 | azure.ai.connections | `0.1.3-preview-foundrytest.1` |
 | azure.ai.toolboxes | `0.1.2-preview-foundrytest.1` |
 | azure.ai.routines | `0.1.1-preview-foundrytest.1` |
