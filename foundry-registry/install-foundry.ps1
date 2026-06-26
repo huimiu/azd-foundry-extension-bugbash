@@ -23,7 +23,11 @@ foreach ($e in $json.extensions) {
     }
   }
 }
-$json | ConvertTo-Json -Depth 60 | Set-Content -Path $local -Encoding utf8
+# Write UTF-8 WITHOUT a BOM. Windows PowerShell 5.1's `-Encoding utf8` emits a
+# BOM (EF BB BF), which azd's Go JSON parser rejects with
+# "invalid character 'ï' looking for beginning of value".
+$jsonText = $json | ConvertTo-Json -Depth 60
+[System.IO.File]::WriteAllText($local, $jsonText, (New-Object System.Text.UTF8Encoding($false)))
 
 Write-Host "Registering 'foundrytest' extension source..."
 azd extension source remove foundrytest 2>$null | Out-Null
