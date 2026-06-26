@@ -3,16 +3,21 @@
 # Unified Foundry azure.yaml — the feature under test.
 #
 # One file is the single source of truth. Each Foundry resource is its own
-# `services:` entry with a singular `host:`, keyed by its resource name, and
-# wired together with `uses:`. There is NO agent.yaml and NO agent.manifest.yaml.
+# top-level `services:` entry (siblings, not nested) with a singular
+# `host: azure.ai.<kind>`, keyed by its resource name, and wired together with
+# `uses:` for ordering. There is NO agent.yaml and NO agent.manifest.yaml.
 #
-# This sample is the "simple" shape: one project (with a model deployment) and
-# one hosted agent that depends on it.
+# This sample is the minimal "project + agent" shape: one project (with a model
+# deployment) and one hosted agent that depends on it. For the full per-resource
+# catalog (connections, toolboxes, skills, routines, prompt-style agents,
+# networking, $ref), see the repo-root README and the feature branch's own
+# complex.azure.yaml.
 name: foundry-bugbash
 
 services:
-  # The Foundry project. host: azure.ai.project owns the project + its model
-  # deployments. No `endpoint:` here means "provision a new project".
+  # The Foundry project. `host: azure.ai.project` owns the project + its model
+  # deployments. No `endpoint:` here means "provision a new project"; add
+  # `endpoint: ${FOUNDRY_PROJECT_ENDPOINT}` to reuse an existing one instead.
   ai-project:
     host: azure.ai.project
     deployments:
@@ -35,5 +40,17 @@ services:
     kind: hosted
     name: assistant
     description: A simple assistant for the bug bash.
-    env:
-      FOUNDRY_MODEL_DEPLOYMENT_NAME: gpt-4o-mini
+    # ---- Optional real fields (uncomment to exercise the richer shape) ----
+    # codeConfiguration:                # code-deploy (ZIP) instead of a container
+    #   runtime: python_3_12            # e.g. python_3_12, dotnet_9
+    #   entryPoint: main.py
+    #   dependencyResolution: remote_build   # bundled | remote_build
+    # protocols:
+    #   - protocol: responses
+    #     version: "1.0.0"
+    # container:
+    #   resources:
+    #     cpu: "0.5"
+    #     memory: 1Gi
+    # env:
+    #   FOUNDRY_MODEL_DEPLOYMENT_NAME: gpt-4o-mini
