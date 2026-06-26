@@ -34,8 +34,14 @@ If SmartScreen warns about an unknown publisher: **More info → Run anyway**.
 azd extension list
 ```
 
-✅ **Expect:** every `azure.ai.*` + `microsoft.foundry` shows a `*-foundrytest.1`
-version with source `foundrytest`.
+> 🔁 **Refreshing from an earlier build?** If you already installed these
+> extensions, run `azd extension uninstall microsoft.foundry` first, then re-run
+> the install script. azd treats the `-foundrytest.N` suffix as the same version,
+> so it won't replace an already-installed binary otherwise.
+
+✅ **Expect:** every `azure.ai.*` + `microsoft.foundry` shows a `*-foundrytest.*`
+version with source `foundrytest` (`azure.ai.agents` is `foundrytest.2`, the rest
+`foundrytest.1`).
 
 ## Try it
 
