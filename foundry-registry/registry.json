@@ -8,7 +8,7 @@
       "description": "Ship agents with Microsoft Foundry from your terminal. (Preview)",
       "versions": [
         {
-          "version": "0.1.42-preview-foundrytest.1",
+          "version": "0.1.42-preview-foundrytest.2",
           "requiredAzdVersion": ">1.25.2",
           "capabilities": [
             "custom-commands",
@@ -57,7 +57,7 @@
             "windows/amd64": {
               "checksum": {
                 "algorithm": "sha256",
-                "value": "91e2550b33c3d5da881adc3a6c7fa2d4245716bf483da5c88dca33561ea25e0b"
+                "value": "ee197bddff9c822ea43a60532953a7c718c7db09e4248dad0cf54dc7daed732c"
               },
               "entryPoint": "azure-ai-agents-windows-amd64.exe",
               "url": "artifacts/azure-ai-agents-windows-amd64.zip"
