@@ -224,6 +224,13 @@ azd down
 ✅ **Expect:** azd removes what **it** provisioned (project + deployments +
 agents). A project you brought via `endpoint:` is **left untouched**.
 
+
+## More samples
+
+For additional hosted-agent samples using the unified `azure.yaml` format:
+
+- [Python hosted-agents samples](https://github.com/microsoft-foundry/foundry-samples-pr/tree/migrate-hosted-agents-azure-yaml/samples/python/hosted-agents)
+- [C# hosted-agents samples](https://github.com/microsoft-foundry/foundry-samples-pr/tree/migrate-hosted-agents-azure-yaml/samples/csharp/hosted-agents)
 ## How to report findings
 
 File issues at [https://github.com/Azure/azure-dev/issues](https://github.com/Azure/azure-dev/issues).
