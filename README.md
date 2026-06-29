@@ -87,7 +87,6 @@ agent, or add an unknown field — and **expect red squiggles**.
 > **To test with a real, runnable agent instead**, run `azd ai agent sample` in a new
 > directory outside this repo and pick a sample — it scaffolds a working agent plus a
 > unified `azure.yaml`. Then follow the same steps below in that directory.
-> Browse available samples at [aka.ms/foundry-agents-samples](https://aka.ms/foundry-agents-samples).
 
 ```powershell
 cd unified-yaml-sample
