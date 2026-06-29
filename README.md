@@ -206,18 +206,7 @@ azd provision
 disabled**. (Omit `agentSubnet` to use the Microsoft-managed network.) More detail
 in the agents extension's `docs/private-networking.md`.
 
-### 11. Confirm the old shape still warns (no Azure)
-
-```powershell
-cd unified-yaml-sample/migration-before
-azd package
-```
-
-✅ **Expect:** [`migration-before/azure.yaml`](./unified-yaml-sample/migration-before/azure.yaml)
-uses the OLD config-nested agent shape (agent fields under `config:`) — azd prints
-a **deprecation warning** pointing at the migration guide and **does not crash**.
-
-### 12. Tear it all down (needs Azure)
+### 11. Tear it all down (needs Azure)
 
 ```powershell
 azd down
