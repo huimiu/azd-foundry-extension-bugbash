@@ -14,8 +14,14 @@ command**, and **what you should see**. Items marked **(no Azure)** need only th
 editor / CLI; the rest need an Azure subscription + Foundry access. Pick any —
 they're independent.
 
-## Setup (two steps)
+## Setup (three steps)
 
+### 0. Clone this repo
+
+```powershell
+git clone https://github.com/huimiu/azd-foundry-extension-bugbash
+cd azd-foundry-extension-bugbash
+```
 ### 1. Put azd on PATH
 
 ```powershell
@@ -74,11 +80,14 @@ agent, or add an unknown field — and **expect red squiggles**.
 
 ### 3. Provision & deploy (needs Azure)
 
-> The placeholder agent under `unified-yaml-sample/agents/assistant` is
-> intentionally minimal — it exercises the **orchestration**, not a real runtime.
-> For a guaranteed-runnable agent, scaffold one with `azd ai agent sample` (or
-> [aka.ms/foundry-agents-samples](https://aka.ms/foundry-agents-samples)) and
-> point the `assistant` service's `project:` at it.
+> **`unified-yaml-sample/`** contains a minimal `azure.yaml` (one project + one agent)
+> and a stub agent under `src/assistant/`. It deploys successfully and exercises the
+> full orchestration pipeline, but the agent itself does nothing at runtime.
+>
+> **To test with a real, runnable agent instead**, run `azd ai agent sample` in a new
+> directory outside this repo and pick a sample — it scaffolds a working agent plus a
+> unified `azure.yaml`. Then follow the same steps below in that directory.
+> Browse available samples at [aka.ms/foundry-agents-samples](https://aka.ms/foundry-agents-samples).
 
 ```powershell
 cd unified-yaml-sample
