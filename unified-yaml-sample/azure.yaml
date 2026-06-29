@@ -30,11 +30,11 @@ services:
           name: GlobalStandard
           capacity: 10
 
-  # A hosted agent built from source under ./agents/assistant.
+  # A hosted agent built from source under ./src/assistant.
   # `uses: [ai-project]` orders deploy (project first) and links the two.
   assistant:
     host: azure.ai.agent
-    project: ./agents/assistant
+    project: ./src/assistant
     uses:
       - ai-project
     kind: hosted
