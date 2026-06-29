@@ -8,7 +8,7 @@
       "description": "Ship agents with Microsoft Foundry from your terminal. (Preview)",
       "versions": [
         {
-          "version": "0.1.42-preview-foundrytest.4",
+          "version": "0.1.42-preview-foundrytest.5",
           "requiredAzdVersion": ">1.25.2",
           "capabilities": [
             "custom-commands",
@@ -57,7 +57,7 @@
             "windows/amd64": {
               "checksum": {
                 "algorithm": "sha256",
-                "value": "d6e4c0263439fd77cad05c7368c5f40e93d3c49f1e048d17a4de24304c685770"
+                "value": "419de57fbf6feea8a9cdbccf4ce28c2df4dbbfbec728da8ab4d84c0ef3e832c7"
               },
               "entryPoint": "azure-ai-agents-windows-amd64.exe",
               "url": "artifacts/azure-ai-agents-windows-amd64.zip"
@@ -79,7 +79,7 @@
       "description": "Manage Microsoft Foundry Connections from your terminal. (Preview)",
       "versions": [
         {
-          "version": "0.1.3-preview-foundrytest.1",
+          "version": "0.1.3-preview-foundrytest.2",
           "capabilities": [
             "custom-commands",
             "service-target-provider",
@@ -98,7 +98,7 @@
             "windows/amd64": {
               "checksum": {
                 "algorithm": "sha256",
-                "value": "93b7e2c606ae3f0ec04cddc4c6c2871cb3f8c91e1fd990b45d1f4d4d38934b87"
+                "value": "b89efa3ca26d7e0469fc45a9b65861c556524a27e367010f1632b166e353f2a6"
               },
               "entryPoint": "azure-ai-connections-windows-amd64.exe",
               "url": "artifacts/azure-ai-connections-windows-amd64.zip"
