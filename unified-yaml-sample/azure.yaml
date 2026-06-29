@@ -14,6 +14,13 @@
 # complex.azure.yaml.
 name: foundry-bugbash
 
+# Bicep-less provisioning. `provider: microsoft.foundry` routes `azd provision`
+# to the agents extension's in-memory synthesizer instead of azd-core's bicep
+# provider, so there is no infra/ folder. `azd ai agent init` stamps this; omit
+# it and azd falls back to bicep and expects infra/ on disk.
+infra:
+  provider: microsoft.foundry
+
 services:
   # The Foundry project. `host: azure.ai.project` owns the project + its model
   # deployments. No `endpoint:` here means "provision a new project"; add
